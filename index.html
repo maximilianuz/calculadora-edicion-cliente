@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Presupuesto de Video</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 2rem; }
+    .form-container { background: white; padding: 2rem; border-radius: 12px; max-width: 700px; margin: auto; box-shadow: 0 0 12px rgba(0,0,0,0.1); }
+    h1, h2 { color: #333; }
+    label { font-weight: bold; margin-top: 1rem; display: block; }
+    input, textarea, select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 1rem; }
+    button { background-color: #007BFF; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+    .section { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Formulario de Presupuesto de Video</h1>
+    <form id="videoForm">
+      <div class="section">
+        <h2>1. Contexto General</h2>
+        <label>Nombre del proyecto o marca:</label>
+        <input type="text" name="proyecto" required>
+        <label>Objetivo del video:</label>
+        <select name="objetivo">
+          <option>Promocional</option>
+          <option>Educativo</option>
+          <option>Redes Sociales</option>
+          <option>Interno</option>
+          <option>Inspiracional</option>
+        </select>
+        <label>¿Dónde se publicará?</label>
+        <input type="text" name="publicacion">
+        <label>Público objetivo:</label>
+        <textarea name="publico"></textarea>
+        <label>¿Referencias de estilo?</label>
+        <textarea name="referencias"></textarea>
+      </div>
+      <div class="section">
+        <h2>2. Material Entregado</h2>
+        <label>¿Ya tenés el material grabado?</label>
+        <select name="material_grabado">
+          <option>Sí</option>
+          <option>No</option>
+          <option>Parcial</option>
+        </select>
+        <label>Formato, resolución y duración aproximada:</label>
+        <textarea name="formato"></textarea>
+        <label>¿Está organizado?</label>
+        <select name="organizacion">
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+      </div>
+      <div class="section">
+        <h2>3. Tipo de Edición</h2>
+        <label>Estilo de edición:</label>
+        <select name="edicion">
+          <option>Rápida para redes</option>
+          <option>Documental</option>
+          <option>Corporativa</option>
+          <option>Emocional</option>
+          <option>Cinematográfica</option>
+        </select>
+        <label>¿Incluir efectos o motion graphics?</label>
+        <select name="efectos">
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+        <label>¿Edición multicámara?</label>
+        <select name="multicamara">
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+      </div>
+      <div class="section">
+        <h2>4. Extras</h2>
+        <label>Subtítulos:</label>
+        <select name="subtitulos">
+          <option>No</option>
+          <option>Automáticos</option>
+          <option>Personalizados</option>
+        </select>
+        <label>Música:</label>
+        <select name="musica">
+          <option>Proporcionada por mí</option>
+          <option>Que la busquen</option>
+          <option>No aplica</option>
+        </select>
+        <label>Voice-over o locución:</label>
+        <select name="locucion">
+          <option>Ya tengo</option>
+          <option>Necesito grabarla</option>
+          <option>No aplica</option>
+        </select>
+        <label>¿Miniaturas o elementos gráficos?</label>
+        <select name="graficos">
+          <option>Sí</option>
+          <option>No</option>
+        </select>
+      </div>
+      <div class="section">
+        <h2>5. Duración y Entregables</h2>
+        <label>Duración final estimada:</label>
+        <input type="text" name="duracion_final">
+        <label>Versiones necesarias (vertical, horizontal, reels...):</label>
+        <textarea name="versiones"></textarea>
+        <label>¿En qué formato debe entregarse?</label>
+        <input type="text" name="formato_entrega">
+      </div>
+      <div class="section">
+        <h2>6. Tiempos</h2>
+        <label>Fecha deseada de entrega:</label>
+        <input type="date" name="fecha_entrega">
+        <label>¿Cuántas rondas de cambios?</label>
+        <input type="number" name="rondas" min="0">
+        <label>¿Cuándo necesitás la primera versión?</label>
+        <input type="text" name="primer_version">
+      </div>
+      <div class="section">
+        <h2>7. Presupuesto</h2>
+        <label>Presupuesto estimado:</label>
+        <input type="text" name="presupuesto">
+        <label>Modalidad de pago preferida:</label>
+        <select name="pago">
+          <option>Por proyecto</option>
+          <option>Por hora</option>
+          <option>Por minuto final</option>
+          <option>Por mensualidad</option>
+        </select>
+      </div>
+      <div class="section">
+        <h2>8. Trabajo Recurrente</h2>
+        <label>¿Es un único video o varios por mes?</label>
+        <select name="recurrente">
+          <option>Único</option>
+          <option>2-3 por mes</option>
+          <option>4-8 por mes</option>
+          <option>Más de 8 por mes</option>
+        </select>
+        <label>¿Buscás alguien a largo plazo?</label>
+        <select name="largo_plazo">
+          <option>Sí</option>
+          <option>No</option>
+          <option>No estoy seguro aún</option>
+        </select>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('videoForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('¡Gracias! Tu solicitud ha sido enviada. Pronto nos pondremos en contacto.');
+    });
+  </script>
+</body>
+</html>
