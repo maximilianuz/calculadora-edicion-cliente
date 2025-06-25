@@ -1,0 +1,12 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno o backups
+*.log
+*.env
+*.bak
+*.tmp
+
+# Archivos generados
+*.pdf
