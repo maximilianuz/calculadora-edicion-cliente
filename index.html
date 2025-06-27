@@ -258,7 +258,7 @@
         <h1>Lupa Editions</h1>
         <h2 class="slogan">El detalle no adorna, comunica.</h2>
         <p class="description">
-            Cuéntanos sobre tu proyecto. Rellena este formulario en menos de 3 minutos y recibe un resumen profesional para iniciar el proceso de cotización.
+            Cuéntanos sobre tu proyecto. <strong>Completa</strong> este formulario en menos de 3 minutos y recibe un resumen profesional para iniciar el proceso de cotización.
         </p>
     </header>
 
@@ -387,7 +387,6 @@
                     return;
                 }
                 
-                // Recopilamos los datos de los campos nuevos y existentes
                 const extrasSeleccionados = [];
                 if(document.getElementById('extra-subtitulos').checked) extrasSeleccionados.push('Subtítulos personalizados y animados');
                 if(document.getElementById('extra-motion').checked) extrasSeleccionados.push('Motion Graphics / Animación');
@@ -426,7 +425,6 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
                 
-                // SOLUCIÓN LOGO: Obtenemos la imagen del HTML por su ID
                 const logoImg = document.getElementById('logo-pdf');
 
                 const primaryColor = '#0d6efd';
@@ -435,7 +433,6 @@
                 const today = new Date();
                 const requestNumber = today.getTime().toString().slice(-6);
 
-                // Añadimos la imagen al PDF (si se cargó correctamente en la página)
                 if (logoImg.complete) {
                     doc.addImage(logoImg, 'JPEG', 15, 12, 25, 25);
                 }
@@ -502,7 +499,6 @@
                 };
                 
                 let currentY = 120;
-                // PDF actualizado para incluir los nuevos campos
                 currentY = addProjectField('Tipo de Proyecto:', data.tipoProyecto, currentY);
                 currentY = addProjectField('Objetivo / Goal:', data.objetivo, currentY);
                 currentY = addProjectField('Material Bruto:', data.materialBruto, currentY);
