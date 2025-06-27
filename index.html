@@ -1,265 +1,231 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lupa Editions | Iniciar Presupuesto de Video</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        :root {
-            --bg-color: #f9fafb; --text-color: #111827; --card-bg: #ffffff;
-            --border-color: #d1d5db; --primary-color: #3b82f6; --primary-hover: #2563eb;
-            --label-color: #374151; --header-color: #1f2937; --subtle-text: #6b7280;
-            --success-bg: #dcfce7; --success-text: #166534;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #111827; --text-color: #f9fafb; --card-bg: #1f2937;
-                --border-color: #4b5563; --primary-color: #60a5fa; --primary-hover: #3b82f6;
-                --label-color: #d1d5db; --header-color: #f9fafb; --subtle-text: #9ca3af;
-                --success-bg: #14532d; --success-text: #dcfce7;
-            }
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0 auto; padding: 2rem; background-color: var(--bg-color);
-            color: var(--text-color); max-width: 700px; line-height: 1.6;
-        }
-        header, footer { text-align: center; margin-bottom: 2rem; }
-        header img { width: 90px; height: auto; margin-bottom: 1rem; }
-        header h1 { font-size: 2.2rem; font-weight: 800; color: var(--header-color); margin: 0; }
-        header p { font-size: 1.1rem; color: var(--subtle-text); }
-        form {
-            background-color: var(--card-bg); padding: 2.5rem; border-radius: 16px;
-            border: 1px solid var(--border-color);
-        }
-        fieldset { border: none; padding: 0; margin-bottom: 2rem; }
-        legend {
-            font-size: 1.5rem; font-weight: 700; color: var(--header-color);
-            margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color);
-            width: 100%;
-        }
-        label {
-            font-weight: 600; display: block; margin: 1rem 0 0.5rem; color: var(--label-color);
-        }
-        input, select, textarea {
-            width: 100%; padding: 0.75rem; border: 1px solid var(--border-color);
-            border-radius: 8px; font-size: 1rem; background-color: var(--bg-color);
-            color: var(--text-color); box-sizing: border-box;
-        }
-        .button-group { display: flex; gap: 1rem; margin-top: 1.5rem; }
-        .button-primary {
-            background: var(--primary-color); color: white; flex-grow: 2;
-        }
-        .button-secondary {
-            background-color: transparent; color: var(--subtle-text); border: 1px solid var(--border-color); flex-grow: 1;
-        }
-        button {
-            border: none; border-radius: 8px; padding: 1rem; font-size: 1rem;
-            font-weight: 600; cursor: pointer; transition: all 0.2s ease;
-        }
-        .button-primary:hover { background-color: var(--primary-hover); }
-        .button-secondary:hover { background-color: var(--border-color); }
-        .otro-input { margin-top: 0.5rem; display: none; }
-        #confirmation-message {
-            display: none; text-align: center; padding: 2rem; background-color: var(--success-bg);
-            color: var(--success-text); border-radius: 16px;
-        }
-        #confirmation-message h2 { color: var(--success-text); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lupa Editions | Presupuesto de Video</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --accent: #007BFF;
+      --text: #111827;
+      --label: #374151;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    header, footer {
+      text-align: center;
+    }
+
+    header img {
+      width: 100px;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.05) rotate(-1deg);
+    }
+
+    form {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: bold;
+    }
+
+    p.description {
+      color: #6b7280;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--label);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #005fcc;
+    }
+
+    fieldset {
+      margin-top: 2rem;
+      border: none;
+    }
+
+    legend {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    footer p {
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: #4b5563;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img id="logo-img" alt="Lupa Editions Logo">
-        <h1>Vamos a crear algo increíble juntos</h1>
-        <p>Completa este formulario para que podamos entender tu visión. Es fácil, rápido y nos ayudará a darte una cotización precisa.</p>
-    </header>
+  <header>
+    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="Logo Lupa Editions" />
+    <h1>Presupuesto Creativo</h1>
+    <p class="description">
+      Cuéntanos qué necesitas editar y nosotros haremos que cobre vida con el máximo detalle. Completa este formulario en menos de 3 minutos y recibe un resumen profesional listo para cotizar.
+    </p>
+  </header>
 
-    <div id="form-container">
-        <form id="clienteForm" autocomplete="off">
-            <fieldset>
-                <legend>Paso 1: Información de Contacto</legend>
-                <label for="nombreCliente">Tu Nombre o Empresa</label>
-                <input type="text" id="nombreCliente" placeholder="Ej: Juan Pérez / Mi Marca Creativa" required>
-                
-                <label for="emailCliente">Tu Email</label>
-                <input type="email" id="emailCliente" placeholder="Ej: hola@tuempresa.com" required>
+  <form id="formulario">
+    <fieldset>
+      <legend>1. Información de contacto</legend>
+      <label for="nombre">Nombre o empresa</label>
+      <input type="text" id="nombre" required>
 
-                <label for="telefonoCliente">Tu Teléfono / WhatsApp</label>
-                <input type="tel" id="telefonoCliente" placeholder="Ej: +54 9 11 1234 5678" required>
-            </fieldset>
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
 
-            <fieldset>
-                <legend>Paso 2: La Esencia de tu Video</legend>
-                <label for="objetivo">¿Cuál es el objetivo principal del video?</label>
-                <select id="objetivo" name="objetivo" required>
-                    <option value="" disabled selected>Selecciona una opción...</option>
-                    <option value="Vender un producto o servicio">Vender un producto o servicio</option>
-                    <option value="Promocionar mi marca en redes sociales">Promocionar mi marca en redes sociales</option>
-                    <option value="Educar o informar a mi audiencia">Educar o informar a mi audiencia</option>
-                    <option value="Documentar un evento o testimonio">Documentar un evento o testimonio</option>
-                    <option value="Otro">Otro (especificar)</option>
-                </select>
-                <input type="text" id="objetivo_otro" name="objetivo_otro" class="otro-input" placeholder="Por favor, describe el objetivo">
-            </fieldset>
-            
-            <fieldset>
-                <legend>Paso 3: Estilo y Requerimientos</legend>
-                <label for="referenciaEstilo">Si tienes un video de referencia, compártenos el link</label>
-                <input type="text" id="referenciaEstilo" name="referenciaEstilo" placeholder="Pega aquí un link de YouTube, Vimeo, etc. (Opcional)">
-                
-                <label for="duracionFinal">¿Qué duración final buscas para tu video? (aprox.)</label>
-                 <select id="duracionFinal" name="duracionFinal" required>
-                    <option value="Menos de 1 minuto (Reel/Short)">Menos de 1 minuto (Reel/Short)</option>
-                    <option value="Entre 1 y 3 minutos">Entre 1 y 3 minutos</option>
-                    <option value="Entre 3 y 7 minutos">Entre 3 y 7 minutos</option>
-                    <option value="Más de 7 minutos">Más de 7 minutos</option>
-                </select>
+      <label for="telefono">Teléfono / WhatsApp</label>
+      <input type="tel" id="telefono" required>
+    </fieldset>
 
-                <label for="extras">¿Necesitarás elementos gráficos o subtítulos?</label>
-                 <select id="extras" name="extras">
-                    <option value="No por ahora, solo edición de video">No por ahora, solo edición de video</option>
-                    <option value="Sí, subtítulos para el video">Sí, subtítulos para el video</option>
-                    <option value="Sí, gráficos simples (títulos, logos)">Sí, gráficos simples (títulos, logos)</option>
-                    <option value="Sí, ambos (subtítulos y gráficos)">Sí, ambos (subtítulos y gráficos)</option>
-                 </select>
-            </fieldset>
+    <fieldset>
+      <legend>2. Proyecto de video</legend>
 
-            <div class="button-group">
-                <button type="button" id="resetBtn" class="button-secondary">Limpiar Formulario</button>
-                <button type="submit" class="button-primary">Generar Resumen PDF</button>
-            </div>
-        </form>
-    </div>
+      <label for="objetivo">¿Cuál es el objetivo principal del video?</label>
+      <textarea id="objetivo" rows="2" placeholder="Ej: Educar, vender, emocionar, explicar algo complejo..." required></textarea>
 
-    <div id="confirmation-message">
-        <h2>¡Listo! Tu resumen está en camino.</h2>
-        <p>Hemos generado un PDF con los detalles de tu solicitud. Por favor, revisa tu carpeta de descargas.</p>
-        <p><strong>Siguiente paso:</strong> envíanos ese archivo a nuestro email para recibir tu cotización personalizada.</p>
-        <p>¡Gracias por confiar en Lupa Editions!</p>
-    </div>
-    
-    <footer>
-        <p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1.5rem;">"El detalle no adorna, comunica."</p>
-        <p>© 2025 Lupa Editions</p>
-    </footer>
+      <label for="estilo">¿Tienes alguna referencia de estilo?</label>
+      <input type="text" id="estilo" placeholder="Link de video o descripción del estilo deseado">
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const { jsPDF } = window.jspdf;
-        const form = document.getElementById('clienteForm');
-        const formContainer = document.getElementById('form-container');
-        const confirmationMessage = document.getElementById('confirmation-message');
-        const resetBtn = document.getElementById('resetBtn');
+      <label for="duracion">Duración estimada</label>
+      <select id="duracion" required>
+        <option>Menos de 1 minuto</option>
+        <option>1 a 3 minutos</option>
+        <option>3 a 7 minutos</option>
+        <option>Más de 7 minutos</option>
+      </select>
 
-        // SOLUCIÓN DEFINITIVA PARA EL LOGO: Se define como una constante y se carga con JS.
-        const logoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAH0AfQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1VZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACii-..Jw==";
-        document.getElementById('logo-img').src = logoBase64;
+      <label for="extras">¿Qué elementos adicionales necesitas?</label>
+      <select id="extras">
+        <option>Ninguno</option>
+        <option>Subtítulos</option>
+        <option>Gráficos animados 2D</option>
+        <option>Efectos 3D / Transiciones</option>
+        <option>Todos los anteriores</option>
+      </select>
 
-        function toggleOtroInput(selectElement, inputElement) {
-            if (selectElement.value === 'Otro') {
-                inputElement.style.display = 'block';
-                inputElement.required = true;
-            } else {
-                inputElement.style.display = 'none';
-                inputElement.required = false;
-            }
-        }
+      <label for="relacion">Tipo de relación esperada</label>
+      <select id="relacion">
+        <option>Puntual</option>
+        <option>Recurrente / continua</option>
+      </select>
+    </fieldset>
 
-        const objetivoSelect = document.getElementById('objetivo');
-        objetivoSelect.addEventListener('change', () => toggleOtroInput(objetivoSelect, document.getElementById('objetivo_otro')));
+    <button type="submit">Generar PDF</button>
+  </form>
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const getFieldValue = (fieldName) => {
-                const select = document.getElementById(fieldName);
-                if (select.value === 'Otro') {
-                    return document.getElementById(fieldName + '_otro').value;
-                }
-                return select.value;
-            };
+  <footer>
+    <p><em>"El detalle no adorna, comunica."</em> - Lupa Editions<br>© 2025</p>
+  </footer>
 
-            const formData = {
-                nombre: document.getElementById('nombreCliente').value,
-                email: document.getElementById('emailCliente').value,
-                telefono: document.getElementById('telefonoCliente').value,
-                objetivo: getFieldValue('objetivo'),
-                referencia: document.getElementById('referenciaEstilo').value || "No especificada",
-                duracion: document.getElementById('duracionFinal').value,
-                extras: document.getElementById('extras').value,
-            };
-
-            generarPDF(formData);
-
-            formContainer.style.display = 'none';
-            confirmationMessage.style.display = 'block';
-            window.scrollTo(0, 0);
-        });
-
-        resetBtn.addEventListener('click', () => {
-            form.reset();
-            document.querySelectorAll('.otro-input').forEach(input => {
-                input.style.display = 'none';
-                input.required = false;
-            });
-        });
-
-        function generarPDF(data) {
-            const doc = new jsPDF();
-            const fechaHoy = new Date();
-            
-            if (logoBase64) {
-                doc.addImage(logoBase64, 'JPEG', 15, 15, 30, 30);
-            }
-
-            doc.setFontSize(24); doc.setFont("helvetica", "bold");
-            doc.text("Lupa Editions", 50, 28);
-            doc.setFontSize(12); doc.setFont("helvetica", "italic");
-            doc.text("El detalle no adorna, comunica.", 50, 36);
-            doc.setLineWidth(0.5); doc.line(15, 45, 195, 45);
-
-            doc.setFontSize(18); doc.setFont("helvetica", "bold");
-            doc.text("Resumen de Solicitud de Proyecto", 105, 60, { align: 'center' });
-            
-            doc.setFontSize(11); doc.setFont("helvetica", "normal");
-            doc.text(`Fecha: ${fechaHoy.toLocaleDateString('es-AR')}`, 15, 75);
-            doc.text(`Solicitante: ${data.nombre}`, 15, 82);
-            doc.text(`Email: ${data.email} / Tel: ${data.telefono}`, 15, 89);
-            doc.setLineWidth(0.2); doc.line(15, 95, 195, 95);
-
-            let y = 105;
-            const addField = (label, value) => {
-                if (y > 260) { doc.addPage(); y = 20; }
-                doc.setFont("helvetica", "bold");
-                doc.text(label, 20, y);
-                doc.setFont("helvetica", "normal");
-                const splitText = doc.splitTextToSize(value, 155);
-                doc.text(splitText, 25, y + 7);
-                y += 10 + (splitText.length * 5);
-            };
-
-            addField("1. Objetivo del Video:", data.objetivo);
-            addField("2. Inspiración / Estilo:", data.referencia);
-            addField("3. Duración Estimada:", data.duracion);
-            addField("4. Servicios Adicionales:", data.extras);
-            
-            y = 220;
-            doc.setFontSize(12); doc.setFont("helvetica", "italic");
-            doc.text("“Gracias por detallar tu visión. ¡Estamos un paso más cerca de crear algo increíble!”", 105, y, { align: 'center', maxWidth: 180 });
-            y += 20;
-            doc.setLineWidth(0.2); doc.line(15, y, 195, y); y += 10;
-            
-            doc.setFontSize(10); doc.setFont("helvetica", "bold");
-            doc.text("Próximos Pasos:", 15, y);
-            doc.setFont("helvetica", "normal");
-            y += 6;
-            let terminos = `Nuestro equipo revisará tu solicitud y te contactará en las próximas 24-48 horas hábiles, preferentemente por WhatsApp o a tu email, para brindarte una cotización formal. Toda la información compartida es tratada con estricta confidencialidad.`;
-            doc.text(terminos, 15, y, { maxWidth: 180, lineHeightFactor: 1.5 });
-
-            doc.save(`Solicitud_LupaEditions_${data.nombre.replace(/\s/g, '_')}.pdf`);
-        }
+  <script>
+    const input = document.querySelector("#telefono");
+    const iti = window.intlTelInput(input, {
+      initialCountry: "auto",
+      geoIpLookup: callback => {
+        fetch("https://ipapi.co/json")
+          .then(res => res.json())
+          .then(data => callback(data.country_code))
+          .catch(() => callback("ar"));
+      },
+      utilsScript:
+        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
     });
-    </script>
+
+    document.getElementById("formulario").addEventListener("submit", e => {
+      e.preventDefault();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("Resumen de Solicitud - Lupa Editions", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Nombre: ${document.getElementById("nombre").value}`, 20, 35);
+      doc.text(`Email: ${document.getElementById("email").value}`, 20, 42);
+      doc.text(`Teléfono: ${iti.getNumber()}`, 20, 49);
+
+      doc.text(`Objetivo: ${document.getElementById("objetivo").value}`, 20, 60);
+      doc.text(`Estilo: ${document.getElementById("estilo").value}`, 20, 67);
+      doc.text(`Duración: ${document.getElementById("duracion").value}`, 20, 74);
+      doc.text(`Extras: ${document.getElementById("extras").value}`, 20, 81);
+      doc.text(`Relación: ${document.getElementById("relacion").value}`, 20, 88);
+
+      doc.setFontSize(10);
+      doc.text("Este archivo fue generado automáticamente desde el formulario de solicitud de presupuesto de Lupa Editions.", 20, 110);
+      doc.text("Responderemos tu solicitud en un plazo estimado de 24 a 48 horas hábiles.", 20, 117);
+      doc.text("🔒 Este documento es confidencial y está protegido por derechos de autor.", 20, 124);
+      doc.text("Su contenido no debe ser compartido ni reproducido sin autorización.", 20, 129);
+      doc.text("Tus datos personales están seguros. Solo se utilizarán para presupuestar tu proyecto y no serán compartidos.", 20, 136);
+
+      doc.save("Presupuesto_LupaEditions.pdf");
+    });
+  </script>
 </body>
 </html>
