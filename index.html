@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lupa Editions | Iniciar Proyecto de Video</title>
 
-    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Intl-Tel-Input CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/css/intlTelInput.min.css" />
     
-    <!-- jsPDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
+        /* ESTILOS (Sin cambios) */
         :root {
             --bg: #f8f9fa;
             --card-bg: #ffffff;
@@ -104,6 +102,11 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
+        }
+        
+        .checkbox-group label {
+             margin-top: 0;
+             font-weight: normal;
         }
 
         input, select, textarea {
@@ -211,6 +214,17 @@
             display: none;
             margin-top: 0.25rem;
         }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .checkbox-group input[type="checkbox"]{
+            width: auto;
+            flex-shrink: 0;
+        }
 
         .iti {
             width: 100%;
@@ -240,8 +254,7 @@
 </head>
 <body>
     <header>
-        <!-- CHANGE 1: Logo updated with the provided HTML snippet -->
-        <a href='https://postimg.cc/t7Tfd4Wy' target='_blank'><img src='https://i.postimg.cc/t7Tfd4Wy/LOGO-FINAL.jpg' border='0' alt='LOGO-FINAL'/></a>
+        <img id="logo-pdf" src='https://i.postimg.cc/t7Tfd4Wy/LOGO-FINAL.jpg' alt='Lupa Editions Logo'/>
         <h1>Lupa Editions</h1>
         <h2 class="slogan">El detalle no adorna, comunica.</h2>
         <p class="description">
@@ -267,31 +280,58 @@
             <fieldset>
                 <legend>2. Detalles del Proyecto</legend>
 
-                <label for="objetivo">¿Cuál es el objetivo principal del video? / What is the main goal of the video?</label>
-                <textarea id="objetivo" rows="2" placeholder="Ej: Vender un producto, educar a la audiencia, promocionar un evento..." required></textarea>
+                <label for="tipoProyecto">Tipo de Proyecto / Project Type</label>
+                <select id="tipoProyecto" required>
+                    <option>Paquete de Reels / TikToks</option>
+                    <option>Video Corporativo / Institucional</option>
+                    <option>Video para Cursos / Formaciones</option>
+                    <option>Motion Graphics / Animación 2D</option>
+                    <option>VSL (Video Sales Letter)</option>
+                    <option selected>Otro / Proyecto a medida</option>
+                </select>
 
-                <label for="estilo">¿Tienes alguna referencia de estilo? / Do you have any style references?</label>
-                <input type="text" id="estilo" placeholder="Pega un link de YouTube o describe el estilo que buscas (ej: dinámico, corporativo, cinemático)">
+                <label for="objetivo">¿Cuál es el objetivo principal del video? / What is the main goal?</label>
+                <textarea id="objetivo" rows="2" placeholder="Ej: Vender un producto, educar, promocionar un evento..." required></textarea>
+                
+                <label for="materialBruto">¿Dispones de material grabado? (Material en bruto) / Do you have footage?</label>
+                <textarea id="materialBruto" rows="2" placeholder="Ej: Sí, tengo 30 minutos de entrevistas. / No, necesito que la edición se base en material de archivo (stock)." required></textarea>
+                
+                <label for="estilo">¿Tienes alguna referencia de estilo? / Any style references?</label>
+                <input type="text" id="estilo" placeholder="Pega un link de YouTube o describe el estilo que buscas">
 
                 <label for="duracion">Duración Final Estimada / Estimated Final Duration</label>
                 <select id="duracion" required>
-                    <option>Menos de 1 min (para Reels/Shorts) / Less than 1 min (for Reels/Shorts)</option>
-                    <option>1 a 3 minutos / 1 to 3 minutes</option>
-                    <option>3 a 7 minutos / 3 to 7 minutes</option>
-                    <option>Más de 7 minutos / More than 7 minutes</option>
+                    <option>Menos de 1 min (para Redes)</option>
+                    <option>1 a 3 minutos</option>
+                    <option>3 a 7 minutos</option>
+                    <option>Más de 7 minutos</option>
                 </select>
+            </fieldset>
+            
+            <fieldset>
+                <legend>3. Elementos Adicionales</legend>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="extra-subtitulos">
+                    <label for="extra-subtitulos">Subtítulos personalizados y animados</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="extra-motion">
+                    <label for="extra-motion">Motion Graphics / Animación de textos o logos</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="extra-musica">
+                    <label for="extra-musica">Búsqueda de música y diseño de sonido avanzado</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="extra-miniatura">
+                    <label for="extra-miniatura">Diseño de miniatura (Thumbnail) para YouTube/Redes</label>
+                </div>
+            </fieldset>
 
-                <label for="extras">Elementos Adicionales Necesarios / Additional Elements Needed</label>
-                <select id="extras">
-                    <option>Edición y corrección de color estándar / Standard editing and color correction</option>
-                    <option>Subtítulos personalizados / Custom subtitles</option>
-                    <option>Gráficos 2D / Títulos animados / 2D Graphics / Animated titles</option>
-                    <option>Búsqueda de música y diseño de sonido / Music search and sound design</option>
-                    <option>Todo lo anterior / All of the above</option>
-                </select>
-
-                <label for="extra">¿Algo más que debamos saber? / Anything else we should know?</label>
-                <textarea id="extra" rows="3" placeholder="Detalles sobre la audiencia, plataforma de publicación (YouTube, Instagram, etc.), idiomas o cualquier otro requerimiento."></textarea>
+            <fieldset>
+                <legend>4. Comentarios Finales</legend>
+                <label for="extra-comentarios">¿Algo más que debamos saber? / Anything else we should know?</label>
+                <textarea id="extra-comentarios" rows="3" placeholder="Detalles sobre la audiencia, plataforma de publicación, idiomas, plazos de entrega, etc."></textarea>
             </fieldset>
 
             <div class="button-group">
@@ -307,7 +347,6 @@
         <p><strong>Por favor, envíanos ese PDF a nuestro email de contacto</strong> para que podamos enviarte una cotización detallada.</p>
     </div>
 
-    <!-- CHANGE 2: Bilingual disclaimer and footer updated -->
     <div class="disclaimer">
         <p>🔒 Tratamos tus datos con estricta confidencialidad. Serán utilizados exclusivamente para presupuestar tu proyecto. / We treat your data with strict confidentiality. It will be used exclusively to quote your project.</p>
         <p>El contenido generado está sujeto a licencias de uso profesional y derechos de autor. / The generated content is subject to professional use licenses and copyright.</p>
@@ -340,9 +379,6 @@
                 errorMsg.style.display = iti.isValidNumber() ? "none" : "block";
             });
             
-            // This Base64 variable ensures the logo is always embedded in the PDF correctly.
-            const logoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAH0AfQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1VZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA-..Jw==";
-
             document.getElementById("formulario").addEventListener("submit", function(e) {
                 e.preventDefault();
                 if (!iti.isValidNumber()) {
@@ -351,15 +387,24 @@
                     return;
                 }
                 
+                // Recopilamos los datos de los campos nuevos y existentes
+                const extrasSeleccionados = [];
+                if(document.getElementById('extra-subtitulos').checked) extrasSeleccionados.push('Subtítulos personalizados y animados');
+                if(document.getElementById('extra-motion').checked) extrasSeleccionados.push('Motion Graphics / Animación');
+                if(document.getElementById('extra-musica').checked) extrasSeleccionados.push('Búsqueda de música y diseño de sonido');
+                if(document.getElementById('extra-miniatura').checked) extrasSeleccionados.push('Diseño de miniatura (Thumbnail)');
+
                 const data = {
                     nombre: document.getElementById("nombre").value,
                     email: document.getElementById("email").value,
                     telefono: iti.getNumber(),
+                    tipoProyecto: document.getElementById("tipoProyecto").value,
                     objetivo: document.getElementById("objetivo").value,
+                    materialBruto: document.getElementById("materialBruto").value,
                     estilo: document.getElementById("estilo").value || "No especificado / Not specified",
                     duracion: document.getElementById("duracion").value,
-                    extras: document.getElementById("extras").value,
-                    extra: document.getElementById("extra").value || "Sin comentarios adicionales. / No additional comments."
+                    extras: extrasSeleccionados.length > 0 ? extrasSeleccionados.join(', ') : "Ninguno seleccionado / None selected.",
+                    extraComentarios: document.getElementById("extra-comentarios").value || "Sin comentarios adicionales. / No additional comments."
                 };
 
                 generarPDFProfesional(data);
@@ -380,6 +425,9 @@
             function generarPDFProfesional(data) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                
+                // SOLUCIÓN LOGO: Obtenemos la imagen del HTML por su ID
+                const logoImg = document.getElementById('logo-pdf');
 
                 const primaryColor = '#0d6efd';
                 const textColor = '#212529';
@@ -387,7 +435,11 @@
                 const today = new Date();
                 const requestNumber = today.getTime().toString().slice(-6);
 
-                doc.addImage(logoBase64, 'JPEG', 15, 12, 25, 25);
+                // Añadimos la imagen al PDF (si se cargó correctamente en la página)
+                if (logoImg.complete) {
+                    doc.addImage(logoImg, 'JPEG', 15, 12, 25, 25);
+                }
+                
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(22);
                 doc.setTextColor(textColor);
@@ -450,11 +502,14 @@
                 };
                 
                 let currentY = 120;
+                // PDF actualizado para incluir los nuevos campos
+                currentY = addProjectField('Tipo de Proyecto:', data.tipoProyecto, currentY);
                 currentY = addProjectField('Objetivo / Goal:', data.objetivo, currentY);
-                currentY = addProjectField('Referencia / Reference:', data.estilo, currentY);
+                currentY = addProjectField('Material Bruto:', data.materialBruto, currentY);
+                currentY = addProjectField('Referencia / Ref:', data.estilo, currentY);
                 currentY = addProjectField('Duración / Duration:', data.duracion, currentY);
-                currentY = addProjectField('Extras:', data.extras, currentY);
-                currentY = addProjectField('Notas / Notes:', data.extra, currentY);
+                currentY = addProjectField('Extras Solicitados:', data.extras, currentY);
+                currentY = addProjectField('Notas / Notes:', data.extraComentarios, currentY);
 
                 const pageHeight = doc.internal.pageSize.getHeight();
                 doc.setDrawColor(primaryColor);
