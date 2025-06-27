@@ -3,341 +3,273 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lupa Editions – Presupuesto Profesional</title>
+  <title>Lupa Editions | Presupuesto</title>
 
-  <!-- intl-tel-input CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.min.css" />
-  <!-- intl-tel-input JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
-
-  <!-- html2pdf.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/css/intlTelInput.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     :root {
-      --color-primary: #111;
-      --color-secondary: #555;
-      --color-bg: #f9f9f9;
-      --color-accent: #e0e0e0;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --accent: #007BFF;
+      --text: #111827;
+      --label: #374151;
     }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0; padding: 0;
-      background-color: var(--color-bg);
-      color: var(--color-primary);
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
     }
-    .container {
-      max-width: 860px;
-      margin: 40px auto;
-      padding: 30px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-    }
-    .logo {
+
+    header, footer {
       text-align: center;
-      margin-bottom: 24px;
     }
-    .logo img {
-      max-width: 200px;
-      border: 0;
+
+    header img {
+      width: 100px;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
     }
-    h1 {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+
+    header img:hover {
+      transform: scale(1.05) rotate(-1deg);
     }
-    p.slogan {
-      text-align: center;
-      font-style: italic;
-      color: var(--color-secondary);
-      margin: 0 0 18px 0;
-    }
-    .description {
-      text-align: center;
-      font-size: 16px;
-      color: #444;
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
-    form label {
-      font-weight: 600;
-      display: block;
-      margin-top: 18px;
-    }
-    form input, form select, form textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-sizing: border-box;
-      font-size: 15px;
-    }
-    .field-description {
-      font-size: 13px;
-      color: var(--color-secondary);
-      margin-top: 4px;
-      margin-bottom: 12px;
-      font-style: italic;
-    }
-    button {
-      margin-top: 28px;
-      background-color: var(--color-primary);
-      color: #fff;
-      border: none;
-      padding: 14px 26px;
+
+    form {
+      background: var(--card);
+      padding: 2rem;
       border-radius: 14px;
-      cursor: pointer;
-      font-size: 17px;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      animation: fadeIn 0.8s ease;
     }
-    button:hover {
-      background-color: #000;
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .footer-message {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #777;
-      text-align: center;
-      line-height: 1.5;
+
+    h1 {
+      font-size: 1.9rem;
+      font-weight: bold;
     }
-    #whatsapp-link {
-      font-size: 16px;
-      text-decoration: none;
-      background: #25d366;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 12px;
-      display: none;
-      margin-top: 16px;
+
+    h2.slogan {
+      font-size: 1.1rem;
+      color: #4b5563;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
     }
-    #preview-container {
-      margin-top: 24px;
-      padding: 20px;
-      border: 1px dashed #ccc;
-      border-radius: 12px;
-      background-color: #fafafa;
+
+    p.description {
+      color: #6b7280;
+      font-size: 1rem;
+      margin-bottom: 2rem;
     }
-    #progress-bar {
-      display: none;
-      margin-top: 20px;
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--label);
+    }
+
+    input, select, textarea {
       width: 100%;
-      background-color: #eee;
-      border-radius: 10px;
-      overflow: hidden;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #fff;
+      transition: all 0.2s ease;
     }
-    #progress-bar div {
-      height: 16px;
-      background-color: #4caf50;
-      width: 0%;
-      transition: width 0.4s ease;
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
     }
-    #success-message {
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #005fcc;
+    }
+
+    fieldset {
+      margin-top: 2rem;
+      border: none;
+    }
+
+    legend {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    footer p {
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: #4b5563;
+    }
+
+    .error-msg {
+      color: red;
+      font-size: 14px;
+      margin-top: -12px;
+      margin-bottom: 12px;
       display: none;
-      margin-top: 20px;
-      background-color: #e6ffed;
-      color: #207844;
-      border: 1px solid #b2e2c1;
-      padding: 12px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 500;
+    }
+
+    .iti {
+      width: 100%;
+    }
+
+    .disclaimer {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #6b7280;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="pdf-content">
-    <div class="logo">
-      <a href='https://postimg.cc/t7Tfd4Wy' target='_blank'>
-        <img src='https://i.postimg.cc/t7Tfd4Wy/LOGO-FINAL.jpg' alt='LOGO-FINAL'/>
-      </a>
-    </div>
-
+  <header>
+    <a href='https://postimg.cc/K13nhFGK' target='_blank'><img src='https://i.postimg.cc/dV4ndtg9/LOGO-FINAL.jpg' border='0' alt='LOGO-FINAL'/></a>
     <h1>Lupa Editions</h1>
-    <p class="slogan">El detalle no adorna, comunica</p>
+    <h2 class="slogan">El detalle no adorna, comunica.</h2>
     <p class="description">
-      Completa este formulario para recibir tu presupuesto personalizado de edición de video.<br>
-      Te responderemos en 24 a 48 horas.<br>
-      <strong>Juntos mejoramos tu video para que comunique con impacto y conecte con tu audiencia.</strong>
+      Cuéntanos qué necesitas editar y nosotros haremos que cobre vida con el máximo detalle. Completa este formulario en menos de 3 minutos y recibe un resumen profesional listo para cotizar dentro de las 24/48Hs.
     </p>
+  </header>
 
-    <form id="budget-form">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required />
-      <div class="field-description">Indica tu nombre y apellido</div>
+  <form id="formulario">
+    <fieldset>
+      <legend>1. Información de contacto</legend>
+      <label for="nombre">Nombre o empresa / Name or company</label>
+      <input type="text" id="nombre" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required />
-      <div class="field-description">Email para contacto y envío del presupuesto</div>
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
 
       <label for="telefono">Teléfono / WhatsApp</label>
-      <input type="tel" id="telefono" name="telefono" required />
-      <div class="field-description">Selecciona tu país y escribe tu número sin código de país</div>
+      <input type="tel" id="telefono" required>
+      <div class="error-msg" id="error-msg">Número inválido, por favor verifica.</div>
+    </fieldset>
 
-      <label for="descripcion">Descripción del proyecto:</label>
-      <textarea id="descripcion" name="descripcion" rows="3" placeholder="Describe brevemente tu proyecto de video" required></textarea>
+    <fieldset>
+      <legend>2. Proyecto de video</legend>
 
-      <label for="preferencias">Preferencias o detalles especiales:</label>
-      <textarea id="preferencias" name="preferencias" rows="2" placeholder="Colores, estilo, música, etc."></textarea>
+      <label for="objetivo">¿Cuál es el objetivo principal del video? / What's the main goal of the video?</label>
+      <textarea id="objetivo" rows="2" placeholder="Ej: Educar, vender, emocionar, explicar algo complejo..." required></textarea>
 
-      <label for="tipo_cliente">Tipo de cliente:</label>
-      <select id="tipo_cliente" name="tipo_cliente" required>
-        <option value="">-- Selecciona --</option>
-        <option value="puntual">Puntual</option>
-        <option value="continuo">Continuo</option>
+      <label for="estilo">¿Tienes alguna referencia de estilo? / Any style reference?</label>
+      <input type="text" id="estilo" placeholder="Link de video o descripción del estilo deseado">
+
+      <label for="duracion">Duración estimada / Estimated duration</label>
+      <select id="duracion" required>
+        <option>Menos de 1 minuto / Less than 1 minute</option>
+        <option>1 a 3 minutos / 1 to 3 minutes</option>
+        <option>3 a 7 minutos / 3 to 7 minutes</option>
+        <option>Más de 7 minutos / More than 7 minutes</option>
       </select>
 
-      <label for="tipo_edicion">Tipo de edición deseada:</label>
-      <select id="tipo_edicion" name="tipo_edicion" required>
-        <option value="">-- Selecciona --</option>
-        <option value="basica">Edición básica (cortes y ajustes simples)</option>
-        <option value="avanzada">Edición avanzada (animaciones, corrección de color)</option>
-        <option value="subtitulos">Edición con subtítulos</option>
-        <option value="otros">Otros (describir en preferencias)</option>
+      <label for="extras">¿Qué elementos adicionales necesitas? / Additional elements</label>
+      <select id="extras">
+        <option>Ninguno / None</option>
+        <option>Subtítulos / Subtitles</option>
+        <option>Gráficos animados 2D / 2D graphics</option>
+        <option>Efectos 3D / 3D effects</option>
+        <option>Todos los anteriores / All of the above</option>
       </select>
 
-      <label for="entrega">Plazo estimado de entrega:</label>
-      <input type="text" id="entrega" name="entrega" placeholder="Ej: 7 días, 2 semanas" />
-
-      <label for="idioma">Idioma:</label>
-      <select id="idioma" name="idioma">
-        <option value="es">Español</option>
-        <option value="en">Inglés</option>
+      <label for="relacion">Tipo de relación esperada / Expected relationship</label>
+      <select id="relacion">
+        <option>Puntual / One-time</option>
+        <option>Recurrente / continua / Ongoing</option>
       </select>
 
-      <div class="footer-message" id="legal-text"></div>
+      <label for="extra">¿Algo más que debamos saber? / Anything else you'd like to add?</label>
+      <textarea id="extra" rows="2" placeholder="Puedes detallar necesidades específicas, idiomas, plataforma de publicación, etc."></textarea>
+    </fieldset>
 
-      <button type="submit">📄 Generar PDF</button>
-    </form>
+    <button type="submit">Generar PDF / Generate PDF</button>
+  </form>
 
-    <div id="preview-container">
-      <strong>📎 Vista previa del mensaje para WhatsApp:</strong>
-      <p id="preview-text"></p>
-    </div>
-
-    <a id="whatsapp-link" href="#" target="_blank"></a>
-
-    <div id="progress-bar"><div></div></div>
-    <div id="success-message">✅ ¡El PDF fue generado exitosamente!</div>
-
-    <div style="text-align:center; margin-top: 16px;">
-      <button type="button" onclick="limpiarFormulario()">🧹 Limpiar formulario</button>
-    </div>
+  <div class="disclaimer">
+    🔒 Tratamos tus datos con estricta confidencialidad. Serán utilizados exclusivamente para presupuestar tu proyecto. Todos los derechos reservados. El contenido generado está sujeto a licencias de uso profesional y derechos de autor.
   </div>
 
-<script>
-  const form = document.getElementById('budget-form');
-  const legalText = document.getElementById('legal-text');
-  const whatsappLink = document.getElementById('whatsapp-link');
-  const previewText = document.getElementById('preview-text');
-  const progressBar = document.getElementById('progress-bar');
-  const progressInner = progressBar.querySelector('div');
-  const successMessage = document.getElementById('success-message');
-  let lang = 'es';
+  <footer>
+    <p>Lupa Editions © 2025</p>
+  </footer>
 
-  const texts = {
-    es: `📩 Recibirás respuesta dentro de las próximas 24 a 48 hs.<br>
-         🔒 Tus datos están protegidos y no serán compartidos.<br>
-         ⚖️ Este presupuesto tiene validez de 7 días. El uso comercial está sujeto al acuerdo final.<br>
-         © Lupa Editions. Todos los derechos reservados.`,
-    en: `📩 You will receive a response within 24 to 48 hours.<br>
-         🔒 Your data is protected and will not be shared.<br>
-         ⚖️ This quote is valid for 7 days. Commercial use is subject to final agreement.<br>
-         © Lupa Editions. All rights reserved.`
-  };
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/intlTelInput.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-  function toggleLanguage() {
-    lang = lang === 'es' ? 'en' : 'es';
-    legalText.innerHTML = texts[lang];
-  }
+  <script>
+    const input = document.querySelector("#telefono");
+    const errorMsg = document.querySelector("#error-msg");
 
-  toggleLanguage();
-
-  const fields = ['nombre', 'email', 'telefono', 'descripcion', 'preferencias', 'tipo_cliente', 'tipo_edicion', 'entrega', 'idioma'];
-  fields.forEach(id => {
-    const el = document.getElementById(id);
-    if(el) {
-      el.value = localStorage.getItem(id) || '';
-      el.addEventListener('input', () => localStorage.setItem(id, el.value));
-    }
-  });
-
-  // Inicializar intl-tel-input con detección automática de país
-  const phoneInputField = document.querySelector("#telefono");
-  const iti = window.intlTelInput(phoneInputField, {
-    initialCountry: "auto",
-    geoIpLookup: callback => {
-      fetch("https://ipapi.co/json")
-        .then(res => res.json())
-        .then(data => callback(data.country_code))
-        .catch(() => callback("ar")); // fallback Argentina
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
-  });
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    progressBar.style.display = 'block';
-    progressInner.style.width = '30%';
-    successMessage.style.display = 'none';
-
-    const element = document.getElementById('pdf-content');
-    const nombre = document.getElementById('nombre').value;
-
-    // Validar número con intl-tel-input
-    if(!iti.isValidNumber()) {
-      alert('Por favor ingresa un número de teléfono válido.');
-      progressBar.style.display = 'none';
-      progressInner.style.width = '0%';
-      return;
-    }
-
-    // Obtener número completo con código país para WhatsApp (sin +)
-    const telefonoCompleto = iti.getNumber().replace(/\D/g, '');
-    const msg = encodeURIComponent(`Hola! Soy ${nombre} y ya generé el PDF del presupuesto desde el formulario de Lupa Editions. ¡Gracias! 🙌`);
-    const link = `https://wa.me/${telefonoCompleto}?text=${msg}`;
-
-    previewText.innerText = decodeURIComponent(msg);
-
-    html2pdf().set({
-      margin: 0.5,
-      filename: 'Presupuesto_Lupa_Editions.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    }).from(element).save().then(() => {
-      progressInner.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.display = 'none';
-        progressInner.style.width = '0%';
-        successMessage.style.display = 'block';
-      }, 800);
-      whatsappLink.href = link;
-      whatsappLink.style.display = 'inline-block';
-      whatsappLink.innerText = '📲 Enviar PDF por WhatsApp';
+    const iti = window.intlTelInput(input, {
+      initialCountry: "auto",
+      preferredCountries: ["ar", "us", "gb", "cl", "mx", "co", "pe"],
+      geoIpLookup: function(callback) {
+        fetch('https://ipapi.co/json')
+          .then(res => res.json())
+          .then(data => callback(data.country_code))
+          .catch(() => callback('ar'));
+      },
+      separateDialCode: true,
+      utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/utils.js",
     });
-  });
 
-  function limpiarFormulario() {
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if(el) {
-        el.value = '';
-        localStorage.removeItem(id);
-      }
+    input.addEventListener("blur", () => {
+      const isValid = iti.isValidNumber();
+      errorMsg.style.display = isValid ? "none" : "block";
     });
-    whatsappLink.style.display = 'none';
-    previewText.innerText = '';
-    successMessage.style.display = 'none';
-    progressBar.style.display = 'none';
-    progressInner.style.width = '0%';
-    iti.setNumber(''); // Limpiar input intl-tel-input
-  }
-</script>
+
+    document.getElementById("formulario").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Resumen de Solicitud - Lupa Editions", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Nombre: ${document.getElementById("nombre").value}`, 20, 35);
+      doc.text(`Email: ${document.getElementById("email").value}`, 20, 42);
+      doc.text(`Teléfono: ${iti.getNumber()}`, 20, 49);
+      doc.text(`Objetivo: ${document.getElementById("objetivo").value}`, 20, 60);
+      doc.text(`Estilo: ${document.getElementById("estilo").value}`, 20, 67);
+      doc.text(`Duración: ${document.getElementById("duracion").value}`, 20, 74);
+      doc.text(`Extras: ${document.getElementById("extras").value}`, 20, 81);
+      doc.text(`Relación: ${document.getElementById("relacion").value}`, 20, 88);
+      doc.text(`Adicional: ${document.getElementById("extra").value}`, 20, 95);
+      doc.setFontSize(10);
+      doc.text("Responderemos tu solicitud en un plazo estimado de 24 a 48 horas hábiles.", 20, 110);
+      doc.text("🔒 Este documento es confidencial y está protegido por derechos de autor.", 20, 117);
+      doc.text("Tus datos personales están seguros. Solo se utilizarán para presupuestar tu proyecto.", 20, 124);
+      doc.text("Todos los derechos reservados. Lupa Editions © 2025", 20, 131);
+      doc.save("Presupuesto_LupaEditions.pdf");
+    });
+  </script>
 </body>
 </html>
-
