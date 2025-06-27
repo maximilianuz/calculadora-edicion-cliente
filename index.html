@@ -1,275 +1,483 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lupa Editions | Presupuesto</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lupa Editions | Iniciar Proyecto de Video</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/css/intlTelInput.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Intl-Tel-Input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/css/intlTelInput.min.css" />
+    
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --accent: #007BFF;
-      --text: #111827;
-      --label: #374151;
-    }
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --primary: #0d6efd;
+            --primary-hover: #0b5ed7;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-subtle: #6c757d;
+            --border-color: #dee2e6;
+            --success-bg: #e7f5ec;
+            --success-text: #198754;
+            --shadow-sm: rgba(0, 0, 0, 0.05);
+            --shadow-md: rgba(0, 0, 0, 0.1);
+        }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 2rem;
-      max-width: 700px;
-      margin: auto;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            padding: 2rem 1.5rem;
+            max-width: 720px;
+            margin: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    header, footer {
-      text-align: center;
-    }
+        header, footer {
+            text-align: center;
+            margin: 0 auto;
+        }
 
-    header img {
-      width: 100px;
-      margin-bottom: 1rem;
-      transition: transform 0.3s ease;
-    }
+        header img {
+            width: 90px;
+            margin-bottom: 1rem;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-    header img:hover {
-      transform: scale(1.05) rotate(-1deg);
-    }
+        header img:hover {
+            transform: scale(1.08) rotate(-3deg);
+        }
 
-    form {
-      background: var(--card);
-      padding: 2rem;
-      border-radius: 14px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-      animation: fadeIn 0.8s ease;
-    }
+        #form-wrapper {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px var(--shadow-sm);
+            animation: fadeIn 0.8s ease-out;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    h1 {
-      font-size: 1.9rem;
-      font-weight: bold;
-    }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
 
-    h2.slogan {
-      font-size: 1.1rem;
-      color: #4b5563;
-      margin-top: -0.5rem;
-      margin-bottom: 1rem;
-    }
+        h2.slogan {
+            font-size: 1.15rem;
+            color: var(--text-subtle);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
 
-    p.description {
-      color: #6b7280;
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
+        p.description {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-      color: var(--label);
-    }
+        label {
+            display: block;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.5rem;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 1rem;
-      background-color: #fff;
-      transition: all 0.2s ease;
-    }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            transition: all 0.2s ease-in-out;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--accent);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
-    }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
 
-    button {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      margin-top: 1.5rem;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
 
-    button:hover {
-      background: #005fcc;
-    }
+        button {
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
 
-    fieldset {
-      margin-top: 2rem;
-      border: none;
-    }
+        .button-primary {
+            background: var(--primary);
+            color: white;
+            flex-grow: 2;
+        }
+        .button-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(13, 110, 253, 0.25);
+        }
 
-    legend {
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
+        .button-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+            flex-grow: 1;
+        }
+        .button-secondary:hover {
+            background-color: var(--bg);
+            border-color: var(--text-secondary);
+        }
 
-    footer p {
-      margin-top: 2rem;
-      font-size: 1rem;
-      color: #4b5563;
-    }
+        fieldset {
+            padding:0;
+            margin-top: 2rem;
+            border: none;
+            border-top: 1px solid #e9ecef;
+            padding-top: 1.5rem;
+        }
+        
+        fieldset:first-of-type {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
 
-    .error-msg {
-      color: red;
-      font-size: 14px;
-      margin-top: -12px;
-      margin-bottom: 12px;
-      display: none;
-    }
+        legend {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            padding-right: 1rem;
+        }
+        
+        .disclaimer {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: var(--text-subtle);
+            text-align: center;
+            line-height: 1.6;
+        }
 
-    .iti {
-      width: 100%;
-    }
+        footer p {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-subtle);
+        }
 
-    .disclaimer {
-      margin-top: 2rem;
-      font-size: 0.95rem;
-      color: #6b7280;
-    }
-  </style>
+        .error-msg {
+            color: #dc3545;
+            font-size: 0.875rem;
+            display: none;
+            margin-top: 0.25rem;
+        }
+
+        .iti {
+            width: 100%;
+        }
+
+        #confirmation-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+            background-color: var(--success-bg);
+            border: 1px solid #b6e3c9;
+            border-radius: 16px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        #confirmation-message h2 {
+            color: var(--success-text);
+            font-weight: 700;
+            margin-top: 0;
+        }
+        #confirmation-message p {
+            color: var(--success-text);
+            max-width: 500px;
+            margin: 1rem auto;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <a href='https://postimg.cc/K13nhFGK' target='_blank'><img src='https://i.postimg.cc/dV4ndtg9/LOGO-FINAL.jpg' border='0' alt='LOGO-FINAL'/></a>
-    <h1>Lupa Editions</h1>
-    <h2 class="slogan">El detalle no adorna, comunica.</h2>
-    <p class="description">
-      Cuéntanos qué necesitas editar y nosotros haremos que cobre vida con el máximo detalle. Completa este formulario en menos de 3 minutos y recibe un resumen profesional listo para cotizar dentro de las 24/48Hs.
-    </p>
-  </header>
+    <header>
+        <!-- CHANGE 1: Logo updated with the provided HTML snippet -->
+        <a href='https://postimg.cc/t7Tfd4Wy' target='_blank'><img src='https://i.postimg.cc/t7Tfd4Wy/LOGO-FINAL.jpg' border='0' alt='LOGO-FINAL'/></a>
+        <h1>Lupa Editions</h1>
+        <h2 class="slogan">El detalle no adorna, comunica.</h2>
+        <p class="description">
+            Cuéntanos sobre tu proyecto. Rellena este formulario en menos de 3 minutos y recibe un resumen profesional para iniciar el proceso de cotización.
+        </p>
+    </header>
 
-  <form id="formulario">
-    <fieldset>
-      <legend>1. Información de contacto</legend>
-      <label for="nombre">Nombre o empresa / Name or company</label>
-      <input type="text" id="nombre" required>
+    <div id="form-wrapper">
+        <form id="formulario">
+            <fieldset>
+                <legend>1. Información de Contacto</legend>
+                <label for="nombre">Nombre o Empresa / Name or Company</label>
+                <input type="text" id="nombre" required placeholder="Tu nombre o el de tu empresa">
 
-      <label for="email">Email</label>
-      <input type="email" id="email" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="tu@email.com">
 
-      <label for="telefono">Teléfono / WhatsApp</label>
-      <input type="tel" id="telefono" required>
-      <div class="error-msg" id="error-msg">Número inválido, por favor verifica.</div>
-    </fieldset>
+                <label for="telefono">Teléfono / WhatsApp</label>
+                <input type="tel" id="telefono" required>
+                <div class="error-msg" id="error-msg">Número inválido, por favor verifica.</div>
+            </fieldset>
 
-    <fieldset>
-      <legend>2. Proyecto de video</legend>
+            <fieldset>
+                <legend>2. Detalles del Proyecto</legend>
 
-      <label for="objetivo">¿Cuál es el objetivo principal del video? / What's the main goal of the video?</label>
-      <textarea id="objetivo" rows="2" placeholder="Ej: Educar, vender, emocionar, explicar algo complejo..." required></textarea>
+                <label for="objetivo">¿Cuál es el objetivo principal del video? / What is the main goal of the video?</label>
+                <textarea id="objetivo" rows="2" placeholder="Ej: Vender un producto, educar a la audiencia, promocionar un evento..." required></textarea>
 
-      <label for="estilo">¿Tienes alguna referencia de estilo? / Any style reference?</label>
-      <input type="text" id="estilo" placeholder="Link de video o descripción del estilo deseado">
+                <label for="estilo">¿Tienes alguna referencia de estilo? / Do you have any style references?</label>
+                <input type="text" id="estilo" placeholder="Pega un link de YouTube o describe el estilo que buscas (ej: dinámico, corporativo, cinemático)">
 
-      <label for="duracion">Duración estimada / Estimated duration</label>
-      <select id="duracion" required>
-        <option>Menos de 1 minuto / Less than 1 minute</option>
-        <option>1 a 3 minutos / 1 to 3 minutes</option>
-        <option>3 a 7 minutos / 3 to 7 minutes</option>
-        <option>Más de 7 minutos / More than 7 minutes</option>
-      </select>
+                <label for="duracion">Duración Final Estimada / Estimated Final Duration</label>
+                <select id="duracion" required>
+                    <option>Menos de 1 min (para Reels/Shorts) / Less than 1 min (for Reels/Shorts)</option>
+                    <option>1 a 3 minutos / 1 to 3 minutes</option>
+                    <option>3 a 7 minutos / 3 to 7 minutes</option>
+                    <option>Más de 7 minutos / More than 7 minutes</option>
+                </select>
 
-      <label for="extras">¿Qué elementos adicionales necesitas? / Additional elements</label>
-      <select id="extras">
-        <option>Ninguno / None</option>
-        <option>Subtítulos / Subtitles</option>
-        <option>Gráficos animados 2D / 2D graphics</option>
-        <option>Efectos 3D / 3D effects</option>
-        <option>Todos los anteriores / All of the above</option>
-      </select>
+                <label for="extras">Elementos Adicionales Necesarios / Additional Elements Needed</label>
+                <select id="extras">
+                    <option>Edición y corrección de color estándar / Standard editing and color correction</option>
+                    <option>Subtítulos personalizados / Custom subtitles</option>
+                    <option>Gráficos 2D / Títulos animados / 2D Graphics / Animated titles</option>
+                    <option>Búsqueda de música y diseño de sonido / Music search and sound design</option>
+                    <option>Todo lo anterior / All of the above</option>
+                </select>
 
-      <label for="relacion">Tipo de relación esperada / Expected relationship</label>
-      <select id="relacion">
-        <option>Puntual / One-time</option>
-        <option>Recurrente / continua / Ongoing</option>
-      </select>
+                <label for="extra">¿Algo más que debamos saber? / Anything else we should know?</label>
+                <textarea id="extra" rows="3" placeholder="Detalles sobre la audiencia, plataforma de publicación (YouTube, Instagram, etc.), idiomas o cualquier otro requerimiento."></textarea>
+            </fieldset>
 
-      <label for="extra">¿Algo más que debamos saber? / Anything else you'd like to add?</label>
-      <textarea id="extra" rows="2" placeholder="Puedes detallar necesidades específicas, idiomas, plataforma de publicación, etc."></textarea>
-    </fieldset>
+            <div class="button-group">
+                <button type="reset" class="button-secondary">Limpiar / Clear</button>
+                <button type="submit" class="button-primary">Generar Resumen PDF / Generate PDF Summary</button>
+            </div>
+        </form>
+    </div>
 
-    <button type="submit">Generar PDF / Generate PDF</button>
-  </form>
+    <div id="confirmation-message">
+        <h2>✔️ ¡Resumen Generado!</h2>
+        <p>Tu solicitud ha sido documentada en un PDF que se está descargando ahora mismo. ¡El primer paso está dado!</p>
+        <p><strong>Por favor, envíanos ese PDF a nuestro email de contacto</strong> para que podamos enviarte una cotización detallada.</p>
+    </div>
 
-  <div class="disclaimer">
-    🔒 Tratamos tus datos con estricta confidencialidad. Serán utilizados exclusivamente para presupuestar tu proyecto. Todos los derechos reservados. El contenido generado está sujeto a licencias de uso profesional y derechos de autor.
-  </div>
+    <!-- CHANGE 2: Bilingual disclaimer and footer updated -->
+    <div class="disclaimer">
+        <p>🔒 Tratamos tus datos con estricta confidencialidad. Serán utilizados exclusivamente para presupuestar tu proyecto. / We treat your data with strict confidentiality. It will be used exclusively to quote your project.</p>
+        <p>El contenido generado está sujeto a licencias de uso profesional y derechos de autor. / The generated content is subject to professional use licenses and copyright.</p>
+    </div>
 
-  <footer>
-    <p>Lupa Editions © 2025</p>
-  </footer>
+    <footer>
+        <p>Lupa Editions © 2025 | Todos los derechos reservados. / All rights reserved.</p>
+    </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/intlTelInput.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/utils.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/intlTelInput.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-  <script>
-    const input = document.querySelector("#telefono");
-    const errorMsg = document.querySelector("#error-msg");
+            const input = document.querySelector("#telefono");
+            const errorMsg = document.querySelector("#error-msg");
+            const iti = window.intlTelInput(input, {
+                initialCountry: "auto",
+                preferredCountries: ["ar", "es", "mx", "co", "cl", "pe", "us", "gb"],
+                geoIpLookup: callback => {
+                    fetch('https://ipapi.co/json')
+                        .then(res => res.json())
+                        .then(data => callback(data.country_code))
+                        .catch(() => callback('ar'));
+                },
+                separateDialCode: true,
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/utils.js",
+            });
 
-    const iti = window.intlTelInput(input, {
-      initialCountry: "auto",
-      preferredCountries: ["ar", "us", "gb", "cl", "mx", "co", "pe"],
-      geoIpLookup: function(callback) {
-        fetch('https://ipapi.co/json')
-          .then(res => res.json())
-          .then(data => callback(data.country_code))
-          .catch(() => callback('ar'));
-      },
-      separateDialCode: true,
-      utilsScript:
-        "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.13/build/js/utils.js",
-    });
+            input.addEventListener("blur", () => {
+                errorMsg.style.display = iti.isValidNumber() ? "none" : "block";
+            });
+            
+            // This Base64 variable ensures the logo is always embedded in the PDF correctly.
+            const logoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAH0AfQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1VZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA-..Jw==";
 
-    input.addEventListener("blur", () => {
-      const isValid = iti.isValidNumber();
-      errorMsg.style.display = isValid ? "none" : "block";
-    });
+            document.getElementById("formulario").addEventListener("submit", function(e) {
+                e.preventDefault();
+                if (!iti.isValidNumber()) {
+                    errorMsg.style.display = "block";
+                    input.focus();
+                    return;
+                }
+                
+                const data = {
+                    nombre: document.getElementById("nombre").value,
+                    email: document.getElementById("email").value,
+                    telefono: iti.getNumber(),
+                    objetivo: document.getElementById("objetivo").value,
+                    estilo: document.getElementById("estilo").value || "No especificado / Not specified",
+                    duracion: document.getElementById("duracion").value,
+                    extras: document.getElementById("extras").value,
+                    extra: document.getElementById("extra").value || "Sin comentarios adicionales. / No additional comments."
+                };
 
-    document.getElementById("formulario").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text("Resumen de Solicitud - Lupa Editions", 20, 20);
-      doc.setFontSize(12);
-      doc.text(`Nombre: ${document.getElementById("nombre").value}`, 20, 35);
-      doc.text(`Email: ${document.getElementById("email").value}`, 20, 42);
-      doc.text(`Teléfono: ${iti.getNumber()}`, 20, 49);
-      doc.text(`Objetivo: ${document.getElementById("objetivo").value}`, 20, 60);
-      doc.text(`Estilo: ${document.getElementById("estilo").value}`, 20, 67);
-      doc.text(`Duración: ${document.getElementById("duracion").value}`, 20, 74);
-      doc.text(`Extras: ${document.getElementById("extras").value}`, 20, 81);
-      doc.text(`Relación: ${document.getElementById("relacion").value}`, 20, 88);
-      doc.text(`Adicional: ${document.getElementById("extra").value}`, 20, 95);
-      doc.setFontSize(10);
-      doc.text("Responderemos tu solicitud en un plazo estimado de 24 a 48 horas hábiles.", 20, 110);
-      doc.text("🔒 Este documento es confidencial y está protegido por derechos de autor.", 20, 117);
-      doc.text("Tus datos personales están seguros. Solo se utilizarán para presupuestar tu proyecto.", 20, 124);
-      doc.text("Todos los derechos reservados. Lupa Editions © 2025", 20, 131);
-      doc.save("Presupuesto_LupaEditions.pdf");
-    });
-  </script>
+                generarPDFProfesional(data);
+                
+                document.getElementById('form-wrapper').style.opacity = '0';
+                document.getElementById('form-wrapper').style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    document.getElementById('form-wrapper').style.display = 'none';
+                    document.getElementById('confirmation-message').style.display = 'block';
+                }, 400);
+            });
+
+            document.querySelector("button[type=reset]").addEventListener("click", () => {
+                iti.setNumber("");
+                errorMsg.style.display = "none";
+            });
+
+            function generarPDFProfesional(data) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+
+                const primaryColor = '#0d6efd';
+                const textColor = '#212529';
+                const lightTextColor = '#6c757d';
+                const today = new Date();
+                const requestNumber = today.getTime().toString().slice(-6);
+
+                doc.addImage(logoBase64, 'JPEG', 15, 12, 25, 25);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(22);
+                doc.setTextColor(textColor);
+                doc.text('Lupa Editions', 45, 22);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(lightTextColor);
+                doc.text('El detalle no adorna, comunica.', 45, 28);
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.setTextColor(textColor);
+                doc.text('Solicitud de Presupuesto', 195, 25, { align: 'right' });
+                
+                doc.setDrawColor(primaryColor);
+                doc.setLineWidth(1.5);
+                doc.line(15, 40, 195, 40);
+
+                doc.setFontSize(10);
+                doc.setTextColor(lightTextColor);
+                doc.text(`Fecha / Date: ${today.toLocaleDateString('es-AR')}`, 15, 50);
+                doc.text(`N° de Solicitud / Request #: LUPA-${requestNumber}`, 195, 50, { align: 'right' });
+
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(primaryColor);
+                doc.text('1. Datos del Solicitante / Requester Information', 15, 65);
+                doc.setDrawColor('#dee2e6'); 
+                doc.setLineWidth(0.2);
+                doc.line(15, 68, 195, 68);
+                
+                const addClientField = (label, value, y) => {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.setTextColor(textColor);
+                    doc.text(label, 20, y);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(value, 65, y);
+                };
+                
+                addClientField('Nombre / Name:', data.nombre, 78);
+                addClientField('Email:', data.email, 85);
+                addClientField('Teléfono / Phone:', data.telefono, 92);
+                
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(primaryColor);
+                doc.text('2. Detalles del Proyecto / Project Details', 15, 107);
+                doc.line(15, 110, 195, 110);
+                
+                const addProjectField = (label, value, y) => {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(11);
+                    doc.setTextColor(textColor);
+                    doc.text(label, 20, y);
+                    doc.setFont('helvetica', 'normal');
+                    const splitValue = doc.splitTextToSize(value, 130);
+                    doc.text(splitValue, 65, y);
+                    return y + (splitValue.length * 5) + 4;
+                };
+                
+                let currentY = 120;
+                currentY = addProjectField('Objetivo / Goal:', data.objetivo, currentY);
+                currentY = addProjectField('Referencia / Reference:', data.estilo, currentY);
+                currentY = addProjectField('Duración / Duration:', data.duracion, currentY);
+                currentY = addProjectField('Extras:', data.extras, currentY);
+                currentY = addProjectField('Notas / Notes:', data.extra, currentY);
+
+                const pageHeight = doc.internal.pageSize.getHeight();
+                doc.setDrawColor(primaryColor);
+                doc.setLineWidth(0.5);
+                doc.line(15, pageHeight - 35, 195, pageHeight - 35);
+
+                doc.setFontSize(10);
+                doc.setTextColor(textColor);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Próximos Pasos / Next Steps:', 15, pageHeight - 28);
+                
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(lightTextColor);
+                doc.setFontSize(9);
+                const footerText = `Analizaremos tu solicitud y te contactaremos en 24-48 horas hábiles vía WhatsApp o email con una cotización. / We will review your request and contact you within 24-48 business hours via WhatsApp or email with a quote.`;
+                doc.text(doc.splitTextToSize(footerText, 180), 15, pageHeight - 22, {lineHeightFactor: 1.5});
+                
+                doc.setFontSize(9);
+                doc.text(`Lupa Editions © 2025`, 105, pageHeight - 10, { align: 'center' });
+
+                doc.save(`Solicitud_LupaEditions_${requestNumber}.pdf`);
+            }
+        });
+    </script>
 </body>
 </html>
